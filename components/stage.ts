@@ -51,8 +51,8 @@ export const scenes: Record<Mode, Scene> = {
     }
   },
   react(ctx, W, H, t, a) {
-    // a warped grid that kicks on every beat, at 124 bpm
-    const beat = (t / (60000 / 124)) % 1;
+    // a warped grid that kicks on every beat, at 128 bpm
+    const beat = (t / (60000 / 128)) % 1;
     const kick = Math.exp(-beat * 6);
     const cx = W / 2, cy = H / 2, s = Math.min(W, H) * (.4 + kick * .05);
     const k = Math.sin(t * .0008) * .18;
@@ -65,7 +65,7 @@ export const scenes: Record<Mode, Scene> = {
     for (let i = 0; i <= N; i++) { ctx.strokeStyle = warm((i % 4 ? .14 : .4) * (.6 + kick * .4) * a); line(pt(i / N, 0), pt(i / N, 1)); }
     for (let j = 0; j <= M; j++) { ctx.strokeStyle = warm((j % 4 ? .14 : .4) * (.6 + kick * .4) * a); line(pt(0, j / M), pt(1, j / M)); }
     // one cell lights up per beat
-    const n = Math.floor(t / (60000 / 124));
+    const n = Math.floor(t / (60000 / 128));
     const ci = (n * 5) % N, cj = (n * 3) % M;
     const cell = [pt(ci / N, cj / M), pt((ci + 1) / N, cj / M), pt((ci + 1) / N, (cj + 1) / M), pt(ci / N, (cj + 1) / M)];
     ctx.fillStyle = warm(.35 * kick * a);
