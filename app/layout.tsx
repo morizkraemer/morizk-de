@@ -7,7 +7,7 @@ const mono = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "500"], variab
 
 export const metadata: Metadata = {
   title: "Moriz Krämer",
-  description: "Freelance from Hamburg: sound, light, videomapping, software and everything in between.",
+  description: "Freelance from Hamburg: sound, light, audioreactive visuals, software and everything in between.",
   metadataBase: new URL("https://morizk.de"),
 };
 

@@ -3,11 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import { scenes, type Mode } from "./stage";
 
-const CUES: { mode: Exclude<Mode, "idle">; name: string }[] = [
-  { mode: "sound", name: "Sound" },
-  { mode: "light", name: "Light" },
-  { mode: "map", name: "Videomapping" },
-  { mode: "code", name: "Software" },
+const CUES: { mode: Exclude<Mode, "idle">; name: string; sub: string }[] = [
+  { mode: "sound", name: "Sound", sub: "listen" },
+  { mode: "light", name: "Light", sub: "shine" },
+  { mode: "react", name: "Audioreactive", sub: "move" },
+  { mode: "code", name: "Software", sub: "combine" },
 ];
 
 export default function Cues() {
@@ -68,6 +68,7 @@ export default function Cues() {
               onClick={() => select(mode === c.mode && matchMedia("(hover: none)").matches ? "idle" : c.mode)}
             >
               <span className="name">{c.name}</span>
+              <span className="sub">{c.sub}</span>
             </button>
           </li>
         ))}

@@ -1,4 +1,4 @@
-export type Mode = "idle" | "sound" | "light" | "map" | "code";
+export type Mode = "idle" | "sound" | "light" | "react" | "code";
 
 const warm = (a: number) => `rgba(255,217,160,${a})`;
 const white = (a: number) => `rgba(242,240,236,${a})`;
@@ -50,9 +50,11 @@ export const scenes: Record<Mode, Scene> = {
       ctx.beginPath(); ctx.arc(ox, 0, 2, 0, Math.PI * 2); ctx.fill();
     }
   },
-  map(ctx, W, H, t, a) {
-    // a facade grid, keystoned and breathing, like a projector warp
-    const cx = W / 2, cy = H / 2, s = Math.min(W, H) * .42;
+  react(ctx, W, H, t, a) {
+    // a warped grid that kicks on every beat, at 124 bpm
+    const beat = (t / (60000 / 124)) % 1;
+    const kick = Math.exp(-beat * 6);
+    const cx = W / 2, cy = H / 2, s = Math.min(W, H) * (.4 + kick * .05);
     const k = Math.sin(t * .0008) * .18;
     const quad = [[cx - s * (1 + k), cy - s * .7], [cx + s * (1 - k), cy - s * .7], [cx + s * (1 + k * .5), cy + s * .7], [cx - s * (1 - k * .5), cy + s * .7]];
     const lerp = (p: number[], q: number[], u: number) => [p[0] + (q[0] - p[0]) * u, p[1] + (q[1] - p[1]) * u];
@@ -60,12 +62,13 @@ export const scenes: Record<Mode, Scene> = {
     const line = (p: number[], q: number[]) => { ctx.beginPath(); ctx.moveTo(p[0], p[1]); ctx.lineTo(q[0], q[1]); ctx.stroke(); };
     const N = 12, M = 8;
     ctx.lineWidth = 1;
-    for (let i = 0; i <= N; i++) { ctx.strokeStyle = warm((i % 4 ? .14 : .4) * a); line(pt(i / N, 0), pt(i / N, 1)); }
-    for (let j = 0; j <= M; j++) { ctx.strokeStyle = warm((j % 4 ? .14 : .4) * a); line(pt(0, j / M), pt(1, j / M)); }
-    // a lit window sweeping across the facade
-    const ci = Math.floor((t * .002) % N), cj = Math.floor((t * .0013) % M);
+    for (let i = 0; i <= N; i++) { ctx.strokeStyle = warm((i % 4 ? .14 : .4) * (.6 + kick * .4) * a); line(pt(i / N, 0), pt(i / N, 1)); }
+    for (let j = 0; j <= M; j++) { ctx.strokeStyle = warm((j % 4 ? .14 : .4) * (.6 + kick * .4) * a); line(pt(0, j / M), pt(1, j / M)); }
+    // one cell lights up per beat
+    const n = Math.floor(t / (60000 / 124));
+    const ci = (n * 5) % N, cj = (n * 3) % M;
     const cell = [pt(ci / N, cj / M), pt((ci + 1) / N, cj / M), pt((ci + 1) / N, (cj + 1) / M), pt(ci / N, (cj + 1) / M)];
-    ctx.fillStyle = warm(.25 * a);
+    ctx.fillStyle = warm(.35 * kick * a);
     ctx.beginPath(); cell.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.closePath(); ctx.fill();
     ctx.fillStyle = warm(.9 * a);
     [[0, 0], [1, 0], [1, 1], [0, 1]].forEach(([u, v]) => { const [x, y] = pt(u, v); ctx.fillRect(x - 3, y - 3, 6, 6); });

@@ -14,7 +14,7 @@ export default function Home() {
         <div className="after">
           <p className="more">+ everything else in between</p>
           <h1 className="intro">
-            <b>Freelance, Hamburg and wherever the gig is.</b> Sound, light, video on buildings, and the code that ties it together.
+            <b>Freelance, Hamburg and wherever the gig is.</b> Sound, light, visuals that move with the music, and the code that ties it together.
           </h1>
         </div>
       </main>

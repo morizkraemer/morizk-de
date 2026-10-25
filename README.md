@@ -1,6 +1,6 @@
 # morizk.de
 
-Landing page for Moriz Krämer, freelance sound, light, videomapping and software from Hamburg.
+Landing page for Moriz Krämer, freelance sound, light, audioreactive visuals and software from Hamburg.
 
 Next.js (App Router), no other dependencies. Deploys to Vercel as-is.
 
